@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="h5 mb-0 py-1">Editar Usuário</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">Nome Completo</label>
+                            <input type="text" name="nome" value="{{ usuario.nome }}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nome de Usuário (Login)</label>
+                            <input type="text" name="usuario" value="{{ usuario.usuario }}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nova Senha</label>
+                            <input type="password" name="senha" class="form-control" placeholder="Deixe em branco para não alterar">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Nível de Permissão</label>
+                            <select name="nivel" class="form-select">
+                                <option value="user" {% if usuario.nivel == 'user' %}selected{% endif %}>Usuário Comum</option>
+                                <option value="admin" {% if usuario.nivel == 'admin' %}selected{% endif %}>Administrador</option>
+                            </select>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning fw-bold">Salvar Alterações</button>
+                            <a href="{{ url_for('usuarios') }}" class="btn btn-outline-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">Painel Admin</a>
+        <div class="d-flex align-items-center">
+            <span class="navbar-text me-3 text-white">Admin: {{ session['nome'] }}</span>
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-light btn-sm">Sair</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show mb-4" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="h4 text-dark mb-0">Gerenciamento de Usuários</h3>
+        <a href="{{ url_for('novo_usuario') }}" class="btn btn-success fw-bold">+ Cadastrar Usuário</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="px-3">ID</th>
+                            <th>Nome</th>
+                            <th>Usuário</th>
+                            <th>Nível</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in usuarios %}
+                        <tr>
+                            <td class="px-3 font-monospace">{{ u.id }}</td>
+                            <td class="fw-bold">{{ u.nome }}</td>
+                            <td>{{ u.usuario }}</td>
+                            <td>
+                                <span class="badge bg-{{ 'primary' if u.nivel == 'admin' else 'secondary' }}">
+                                    {{ u.nivel }}
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ url_for('editar_usuario', id=u.id) }}" class="btn btn-warning btn-sm me-1">Editar</a>
+                                <a href="{{ url_for('excluir_usuario', id=u.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este usuário?')">Excluir</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
