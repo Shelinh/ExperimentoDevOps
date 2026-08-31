@@ -4,9 +4,9 @@ import sqlite3
 from database import criar_banco, conectar
 
 app = Flask(__name__)
-app.secret_key = "sistemas_secret_key"
+app.secret_key = "chave_secreta_sistemas_info"
 
-# Garante que o banco e as tabelas existam ao iniciar
+# Garante a criação da tabela e do admin inicial no banco
 criar_banco()
 
 @app.route("/")
@@ -84,7 +84,7 @@ def novo_usuario():
             flash("Usuário cadastrado com sucesso!", "success")
             return redirect(url_for("usuarios"))
         except sqlite3.IntegrityError:
-            flash("Erro: Nome de usuário já existe.", "danger")
+            flash("Erro: Este nome de usuário já está em uso.", "danger")
         finally:
             conn.close()
 
@@ -104,6 +104,7 @@ def editar_usuario(id):
         nivel = request.form["nivel"]
         nova_senha = request.form["senha"]
 
+        # Se o usuário preencheu a senha, atualiza o hash; caso contrário, mantém a senha atual
         if nova_senha.strip():
             senha_hash = generate_password_hash(nova_senha)
             cursor.execute(
@@ -118,7 +119,7 @@ def editar_usuario(id):
 
         conn.commit()
         conn.close()
-        flash("Usuário atualizado com sucesso!", "success")
+        flash("Dados do usuário atualizados com sucesso!", "success")
         return redirect(url_for("usuarios"))
 
     cursor.execute("SELECT * FROM usuarios WHERE id = ?", (id,))
@@ -138,7 +139,7 @@ def excluir_usuario(id):
     conn.commit()
     conn.close()
 
-    flash("Usuário excluído com sucesso!", "warning")
+    flash("Usuário removido com sucesso!", "warning")
     return redirect(url_for("usuarios"))
 
 @app.route("/logout")

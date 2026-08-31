@@ -1,18 +1,31 @@
+/* Estilos Globais */
 body {
     background-color: #f4f6f9;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
+/* Cards e Paineis */
 .card {
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
 }
 
 .card-header {
-    border-top-left-radius: 12px !important;
-    border-top-right-radius: 12px !important;
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
 }
 
+/* Ajuste na tabela de usuários */
 .table {
     vertical-align: middle;
+}
+
+.badge {
+    font-size: 0.85rem;
+    padding: 0.4em 0.65em;
+}
+
+/* Botões Customizados */
+.btn {
+    border-radius: 6px;
 }
